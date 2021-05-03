@@ -52,9 +52,10 @@ public class Ex1 {
 
 
             Node root = new Node(myArray,null,"","");
-            //Node ans = new DFID().DFID(root, stringSolution);
+            Node ans = new DFID().DFID(root, stringSolution);
             //Node ans = new BFS().BFS(root, stringSolution);
-            Node ans = new IDA().IDA(root, mySolutionArray);
+            //Node ans = new A().A(root, mySolutionArray);
+            //Node ans = new IDA().IDA(root, mySolutionArray);
 
             long end = System.currentTimeMillis();
             NumberFormat formatter = new DecimalFormat("#0.000");
@@ -62,7 +63,7 @@ public class Ex1 {
 
 if(!(ans == null)) {
     FileWriter myWriter = new FileWriter("src\\output111.txt");
-    //  ans.path = ans.path.substring(1);
+    ans.path = ans.path.substring(1);
     myWriter.write(ans.path);
     myWriter.write("\n");
     myWriter.write("Num: " + ans.totalNodes);

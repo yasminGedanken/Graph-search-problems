@@ -6,44 +6,39 @@ import java.util.*;
 public class IDA {
 
     public Node IDA(Node start, String [][] goalMat) {
-        System.out.println("@@@@@@@@@@@@@@@@@@");
+
         String stringSolution ="";
         for (int i = 0; i < goalMat.length; i++)
             stringSolution += Arrays.toString(goalMat[i]);
 
         int manhattan = manhattanDistance(start, goalMat);
 
-        start.lastMove = "start1";
-        System.out.println("start2");
         Stack<Node> stack = new Stack<>();
         Hashtable<String, Node> HT = new Hashtable<String, Node>();
 
-        int minF=0 , sumOfNodes = 0, manhattanTemp=0;
+        int minF=0 , sumOfNodes = 1, manhattanTemp=0;
 
         while( manhattan != Integer.MAX_VALUE) {
-            //System.out.println("helloooooo");
+
             minF = Integer.MAX_VALUE;
             start.out = false;
             start.lastMove = "start again";
-            String startMat = "";
+
             for (int i = 0; i < start.mat.length; i++)
-                startMat += Arrays.toString(start.mat[i]);
+                start.stringMat += Arrays.toString(start.mat[i]);
+
             stack.push(start);
-            HT.put(startMat, start);
-            //System.out.println(stringSolution);
+            HT.put(start.stringMat, start);
+
             while (!stack.isEmpty()) {
                 Node current = stack.pop();
-            //    System.out.println("^^^^^^^^^^^^^^^^^");
-                String currentMat = "";
-                for (int i = 0; i < current.mat.length; i++)
-                    currentMat += Arrays.toString(current.mat[i]);
 
-                if (current.out) HT.remove(currentMat);
+                if (current.out) HT.remove(current.stringMat);
                 else {
                     current.out = true;
                     stack.push(current);
 
-                    List<Node> listNodes = new Children().makeChildren(current);
+                    List<Node> listNodes = new Children().makeChildren(current,stringSolution);
                     sumOfNodes += listNodes.size();
 
                     for (Node element : listNodes) {
@@ -52,38 +47,26 @@ public class IDA {
                             minF = Math.min(minF, manhattanTemp);
                             continue;
                         }
-                        String elementMat = "";
-                        for (int i = 0; i < element.mat.length; i++)
-                            elementMat += Arrays.toString(element.mat[i]);
 
-                        System.out.println("&&&&&&&&&&&&&&"+elementMat);
 
-                        if (HT.containsKey(elementMat) && HT.get(elementMat).out) {
-                            System.out.println("ente to if with elemet : " + elementMat);
-                            continue;
-                        }
+                        if (HT.containsKey(element.stringMat) && HT.get(element.stringMat).out) continue;
 
-                        if (HT.containsKey(elementMat) && !(HT.get(elementMat).out)) {
-                            if (manhattanTemp < (manhattanDistance(HT.get(elementMat), goalMat) + HT.get(elementMat).cost)) {
-                                HT.remove(elementMat);
-                                stack.remove(elementMat);
+
+                        if (HT.containsKey(element.stringMat) && !(HT.get(element.stringMat).out)) {
+                            if (manhattanTemp < (manhattanDistance(HT.get(element.stringMat), goalMat) + HT.get(element.stringMat).cost)) {
+                                HT.remove(element.stringMat);
+                                stack.remove(element.stringMat);
 
                             } else continue;
                         }
 
-                        System.out.println("elem : " + elementMat + "@");
-                        System.out.println("solu: " + stringSolution + "@");
-                        System.out.println();
-
-                        if (stringSolution.equals(elementMat)) {
-                            System.out.println("this is ans ");
+                        if (stringSolution.equals(element.stringMat)) {
+                            element.totalNodes = sumOfNodes;
                             return element;
                         }
 
                         stack.push(element);
-                        HT.put(elementMat, element);
-                        element.key = elementMat;
-                       // System.out.println("ans!!!!!!!!!!!!! "+HT.get(elementMat).key);
+                        HT.put(element.stringMat, element);
 
                     }
                 }

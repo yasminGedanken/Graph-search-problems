@@ -7,10 +7,11 @@ public class Node {
     Node father;
     String lastMove;
     String path;
+    String stringMat="";
     String mat[][]; //the current matrix
     int cost;
-    int totalNodes = 0;
-    String key ="";
+    int totalNodes = 1;
+   // String key ="";
     boolean imCutoff =false; //for DFID algo.
     boolean fail = false; //for DFID algo.
     boolean out = false; // for IDA algo.
