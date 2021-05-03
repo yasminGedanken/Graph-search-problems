@@ -1,0 +1,9 @@
+BFS
+with time
+no open
+2x2
+1,2
+_,3
+Goal state:
+1,2
+3,_
