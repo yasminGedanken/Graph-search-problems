@@ -55,7 +55,8 @@ public class Ex1 {
            // Node ans = new DFID().DFID(root, stringSolution);
             //Node ans = new BFS().BFS(root, stringSolution);
             //Node ans = new A().A(root, mySolutionArray);
-            Node ans = new IDA().IDA(root, mySolutionArray);
+           // Node ans = new IDA().IDA(root, mySolutionArray);
+            Node ans = new DFBnB().DFBnB(root, mySolutionArray);
 
             long end = System.currentTimeMillis();
             NumberFormat formatter = new DecimalFormat("#0.000");

@@ -54,6 +54,8 @@ public class IDA {
 
                         if (HT.containsKey(element.stringMat) && !(HT.get(element.stringMat).out)) {
                             if (manhattanTemp < (manhattanDistance(HT.get(element.stringMat), goalMat) + HT.get(element.stringMat).cost)) {
+
+                                System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                                 HT.remove(element.stringMat);
                                 stack.remove(element.stringMat);
 

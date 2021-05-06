@@ -185,34 +185,6 @@ public class Children {
     private List<Node> twoEmptyPositionJ(Node father, String stringGoal, int position1J, int position2J, int position1I) {
         List<Node> nodeList = new ArrayList<>();
 
-        //block to the left, empty to the right.
-        if(!father.lastMove.equals("right")){ //not doing the opposite move!
-            if(position1J+2 < father.mat[0].length && position2J+2 < father.mat[0].length){
-                Node left = new Node();
-                left.lastMove = "left";
-                left.cost = father.cost + 6;
-                left.father = father;
-                left.mat = new String[father.mat.length][father.mat[0].length];
-                left.iteration= father.iteration+1;
-
-                for (int i = 0; i < left.mat.length; i++)
-                    left.mat[i] = Arrays.copyOf(father.mat[i], father.mat[i].length);
-
-                    left.path = father.path + "-" + father.mat[position1I][position1J + 2] + "&" + father.mat[position1I][position2J + 2] + "L";
-                    left.mat[position1I][position1J] = father.mat[position1I][position1J + 2];
-                    left.mat[position1I][position2J] = father.mat[position1I][position2J + 2];
-                    left.mat[position1I][position1J + 2] = "_";
-                    left.mat[position1I][position2J + 2] = "_";
-
-
-                for (int j = 0; j < left.mat.length; j++)
-                    left.stringMat += Arrays.toString(left.mat[j]);
-
-                nodeList.add(left);
-                if (left.stringMat.equals(stringGoal)) return nodeList;
-            }
-
-        }
         //block to the up, empty to the down.
         if(!father.lastMove.equals("down")){ //not doing the opposite move!
             if(position1I+1 < father.mat.length ){
@@ -238,34 +210,6 @@ public class Children {
 
                 nodeList.add(up);
                 if (up.stringMat.equals(stringGoal)) return nodeList;
-
-            }
-        }
-        //block to the right, empty to the left.
-        if(!father.lastMove.equals("left")){ //not doing the opposite move!
-            if(position1J-2 >=0 && position2J-2 >= 0){
-                Node right = new Node();
-                right.lastMove = "right";
-                right.cost = father.cost + 6;
-                right.father = father;
-                right.mat = new String[father.mat.length][father.mat[0].length];
-                right.iteration= father.iteration+1;
-
-                for (int i = 0; i < right.mat.length; i++)
-                    right.mat[i] = Arrays.copyOf(father.mat[i], father.mat[i].length);
-
-
-                    right.path = father.path + "-" + father.mat[position1I][position1J - 2] + "&" + father.mat[position1I][position2J - 2] + "R";
-                    right.mat[position1I][position1J] = father.mat[position1I][position1J - 2];
-                    right.mat[position1I][position2J] = father.mat[position1I][position2J - 2];
-                    right.mat[position1I][position1J - 2] = "_";
-                    right.mat[position1I][position2J - 2] = "_";
-
-                for (int j = 0; j < right.mat.length; j++)
-                    right.stringMat += Arrays.toString(right.mat[j]);
-
-                nodeList.add(right);
-                if (right.stringMat.equals(stringGoal)) return nodeList;
 
             }
         }
@@ -334,35 +278,7 @@ public class Children {
 
         }
 
-        //block to the up, empty to the down.
-        if(!father.lastMove.equals("down")){ //not doing the opposite move!
-            if(position1I+2< father.mat.length && position2I+2 < father.mat.length){
-                Node up = new Node();
-                up.lastMove = "up";
-                up.cost = father.cost + 7;
-                up.father = father;
-                up.mat = new String[father.mat.length][father.mat[0].length];
-                up.iteration= father.iteration+1;
-                for (int i = 0; i < up.mat.length; i++)
-                    up.mat[i] = Arrays.copyOf(father.mat[i], father.mat[i].length);
 
-
-                    up.path = father.path + "-" + father.mat[position1I + 2][position1J] + "&" + father.mat[position2I + 2][position1J] + "U";
-                    up.mat[position1I][position1J] = father.mat[position1I + 2][position1J];
-                    up.mat[position2I][position1J] = father.mat[position2I + 2][position1J];
-                    up.mat[position1I + 2][position1J] = "_";
-                    up.mat[position2I + 2][position1J] = "_";
-
-
-                for (int j = 0; j < up.mat.length; j++)
-                    up.stringMat += Arrays.toString(up.mat[j]);
-
-                nodeList.add(up);
-
-                if (up.stringMat.equals(stringGoal)) return nodeList;
-
-            }
-        }
         //block to the right, empty to the left.
         if(!father.lastMove.equals("left")){ //not doing the opposite move!
             if(position1J-1 >=0 ){
@@ -393,34 +309,6 @@ public class Children {
             }
         }
 
-        //block to the down, empty to the up.
-        if(!father.lastMove.equals("up")){ //not doing the opposite move!
-            if(position1I-2 >=0 && position2I-2 >= 0){
-                Node down = new Node();
-                down.lastMove = "down";
-                down.cost = father.cost +7;
-                down.father = father;
-                down.mat = new String[father.mat.length][father.mat[0].length];
-                down.iteration= father.iteration+1;
-
-                for (int i = 0; i < down.mat.length; i++)
-                    down.mat[i] = Arrays.copyOf(father.mat[i], father.mat[i].length);
-
-
-                    down.path = father.path + "-" + father.mat[position1I - 2][position1J] + "&" + father.mat[position2I - 2][position1J] + "D";
-                    down.mat[position1I][position1J] = father.mat[position1I - 2][position1J];
-                    down.mat[position2I][position1J] = father.mat[position2I - 2][position1J];
-                    down.mat[position1I - 2][position1J] = "_";
-                    down.mat[position2I - 2][position1J] = "_";
-
-                for (int j = 0; j < down.mat.length; j++)
-                    down.stringMat += Arrays.toString(down.mat[j]);
-
-                nodeList.add(down);
-                if (down.stringMat.equals(stringGoal)) return nodeList;
-
-            }
-        }
 
         return nodeList ;
     }
