@@ -18,7 +18,7 @@ public class Ex1 {
 
         try {
             long start = System.currentTimeMillis();
-        File myObj = new File("src\\input.txt");
+        File myObj = new File("src\\input2.txt");
         Scanner myReader = new Scanner(myObj);
         String algo =myReader.nextLine();
         String time = myReader.nextLine();
@@ -52,10 +52,10 @@ public class Ex1 {
 
 
             Node root = new Node(myArray,null,"","");
-            Node ans = new DFID().DFID(root, stringSolution);
+           // Node ans = new DFID().DFID(root, stringSolution);
             //Node ans = new BFS().BFS(root, stringSolution);
             //Node ans = new A().A(root, mySolutionArray);
-            //Node ans = new IDA().IDA(root, mySolutionArray);
+            Node ans = new IDA().IDA(root, mySolutionArray);
 
             long end = System.currentTimeMillis();
             NumberFormat formatter = new DecimalFormat("#0.000");

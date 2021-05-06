@@ -29,16 +29,17 @@ public class DFID {
                 HT.put(nodeCu.stringMat, nodeCu);
                 isCutoff = false;
                 List<Node> listNodes = new Children().makeChildren(nodeCu, goalMat);
-                numberOfNodes += listNodes.size();
+
 
                 for (Node element : listNodes) {
-
+                    numberOfNodes ++;
                     if (HT.containsKey(element.stringMat)) continue;
 
                     Node result = Limited_DFS(element, goalMat, limit - 1, HT);
                     if (result.imCutoff) isCutoff = true;
                     else if (!result.fail) return result;
                 }
+
                 HT.remove(nodeCu.stringMat);
                 if (isCutoff)  nodeCu.imCutoff = true;
                 else nodeCu.fail = true;

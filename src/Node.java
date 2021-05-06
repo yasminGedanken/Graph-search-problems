@@ -11,7 +11,7 @@ public class Node {
     String mat[][]; //the current matrix
     int cost;
     int totalNodes = 1;
-   // String key ="";
+    int iteration=0;
     boolean imCutoff =false; //for DFID algo.
     boolean fail = false; //for DFID algo.
     boolean out = false; // for IDA algo.

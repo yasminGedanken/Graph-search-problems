@@ -99,8 +99,8 @@ public class IDA {
         for (Map.Entry<String, Pair<Integer, Integer>> entry : childHash.entrySet()) {
             String stringKey = entry.getKey();
             Pair<Integer, Integer> integerIntegerPair = entry.getValue();
-            sum += (Math.abs(goalHash.get(stringKey).getKey() - childHash.get(stringKey).getKey())
-                    + Math.abs(goalHash.get(stringKey).getValue() - childHash.get(stringKey).getValue()));
+            sum += (Math.abs(goalHash.get(stringKey).getKey() - childHash.get(stringKey).getKey())*5
+                    + Math.abs(goalHash.get(stringKey).getValue() - childHash.get(stringKey).getValue())*5);
         }
 
 

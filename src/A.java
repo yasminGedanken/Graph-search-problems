@@ -5,7 +5,11 @@ import java.util.*;
 
 public class A {
 
+    String [][] goalMatManhattan;
+
+
     public Node A(Node start, String [][] goalMat){
+        goalMatManhattan = goalMat;
 
         int sumOfNodes =1;
         String stringSolution ="";
@@ -17,7 +21,7 @@ public class A {
         for (int i = 0; i < start.mat.length; i++)
             stringStart += Arrays.toString(start.mat[i]);
 
-        //Priority Queue of Node by node.cost
+        //Priority Queue of Node by manhattan distance+ cost +made first
         PriorityQueue<Node> pQueue = new PriorityQueue<>(nodeCostComparator);
         Hashtable<String, Node> openList = new Hashtable<String, Node>();
         Hashtable<String, Node> closedList = new Hashtable<String, Node>();
@@ -65,11 +69,29 @@ public class A {
         return null;
     }
 
-
+// (a<b) =-1, (a>b)=1
     Comparator<Node> nodeCostComparator = new Comparator<Node>() {
         @Override
         public int compare(Node o1, Node o2) {
-            return (o1.cost - o2.cost);
+            int costO1 = manhattanDistance(o1 , goalMatManhattan) + o1.cost;
+            int costO2 = manhattanDistance(o2 , goalMatManhattan) + o2.cost;
+        if(costO1 < costO2) return -1;
+        if(costO1 > costO2) return 1;
+        if(costO1 == costO2) {
+            if(o1.iteration < o2.iteration) return -1;
+            if(o1.iteration > o2.iteration) return 1;
+            if(o1.iteration == o2.iteration) {
+                if(o1.lastMove.equals("left")) return -1;
+                if(o2.lastMove.equals("left")) return 1;
+                if(o1.lastMove.equals("up")) return -1;
+                if(o2.lastMove.equals("up")) return 1;
+                if(o1.lastMove.equals("right")) return -1;
+                if(o2.lastMove.equals("right")) return 1;
+                if(o1.lastMove.equals("down")) return -1;
+                if(o2.lastMove.equals("down")) return 1;
+            }
+        }
+            return 0;
         }
     };
 
@@ -90,15 +112,20 @@ public class A {
                 }
             }
         }
+//        if(empty >1){
+//        if((Math.abs(goalHash.get("_").getKey() - childHash.get("__").getKey()) == 1 && (goalHash.get("_").getValue() == childHash.get("__").getValue())) ||
+//                (Math.abs(goalHash.get("_").getValue() - childHash.get("__").getValue()) == 1 && (goalHash.get("_").getKey() == childHash.get("__").getKey()))){
+//
+//
+//        }} else {
+            for (Map.Entry<String, Pair<Integer, Integer>> entry : childHash.entrySet()) {
+                String stringKey = entry.getKey();
+                Pair<Integer, Integer> integerIntegerPair = entry.getValue();
+                sum += (Math.abs(goalHash.get(stringKey).getKey() - childHash.get(stringKey).getKey())*5
+                        + Math.abs(goalHash.get(stringKey).getValue() - childHash.get(stringKey).getValue())*5);
+            //}
 
-        for (Map.Entry<String, Pair<Integer, Integer>> entry : childHash.entrySet()) {
-            String stringKey = entry.getKey();
-            Pair<Integer, Integer> integerIntegerPair = entry.getValue();
-            sum += (Math.abs(goalHash.get(stringKey).getKey() - childHash.get(stringKey).getKey())
-                    + Math.abs(goalHash.get(stringKey).getValue() - childHash.get(stringKey).getValue()));
         }
-
-
         return sum;
     }
 
