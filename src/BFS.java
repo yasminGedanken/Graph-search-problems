@@ -15,6 +15,7 @@ public class BFS {
 
        int numberOfNodes = 1;
        queue.add(start);
+
         while (!queue.isEmpty()){
 
             Node currentNode = queue.remove();

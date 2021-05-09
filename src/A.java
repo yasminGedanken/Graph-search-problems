@@ -28,11 +28,11 @@ public class A {
         Hashtable<String, Node> closedList = new Hashtable<String, Node>();
 
         pQueue.add(start);
-        openList.put(stringStart, start);
+      //  openList.put(stringStart, start);
 
         while (!pQueue.isEmpty()){
             Node current = pQueue.poll();
-
+          //  openList.remove(current.stringMat,current);
 
             if(stringSolution.equals(current.stringMat)) {
                 current.totalNodes=sumOfNodes;
@@ -50,7 +50,7 @@ public class A {
                     pQueue.add(element);
                 }else{
                     if(openList.containsKey(element.stringMat)){
-                        if((manhattanDistance(element, goalMat) +element.cost) < (manhattanDistance(openList.get(element.stringMat),goalMat) + openList.get(element.stringMat).cost)){
+                        if(nodeCostComparator.compare(element, openList.get(element.stringMat)) == -1 ){
 
                             if(start.withPath.equals("with open")) System.out.println(element.stringMat);
                             openList.remove(element.stringMat);
@@ -104,10 +104,13 @@ public class A {
 
         for (int i = 0; i < goalMat.length; i++) {
             for (int j = 0; j < goalMat[0].length; j++) {
-                if (goalMat[i][j].equals("_")) empty++;
-                if(empty > 1) {goalHash.put("__" , new Pair(i,j));
-                    childHash.put("__" , new Pair(i,j));
-                }else {
+                if (goalMat[i][j].equals("_")) {
+                    if (!current.mat[i][j].equals("_"))
+                        childHash.put(current.mat[i][j], new Pair(i, j));
+                }else if(current.mat[i][j].equals("_")){
+                    if (!goalMat[i][j].equals("_"))
+                        goalHash.put(goalMat[i][j], new Pair(i, j));
+                }else if((!goalMat[i][j].equals("_")) && (!current.mat[i][j].equals("_"))){
                     goalHash.put(goalMat[i][j], new Pair(i, j));
                     childHash.put(current.mat[i][j], new Pair(i, j));
                 }

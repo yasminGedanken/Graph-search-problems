@@ -18,7 +18,7 @@ public class Ex1 {
 
         try {
          long start = System.currentTimeMillis();
-        File myObj = new File("src//input.txt");
+        File myObj = new File("input2.txt");
         Scanner myReader = new Scanner(myObj);
         String algo =myReader.nextLine();
         String time = myReader.nextLine();
@@ -79,7 +79,7 @@ public class Ex1 {
 
 
         if(!(ans == null)) {
-            FileWriter myWriter = new FileWriter("src//output.txt");
+            FileWriter myWriter = new FileWriter("output.txt");
             ans.path = ans.path.substring(1);
             myWriter.write(ans.path);
             myWriter.write("\n");
