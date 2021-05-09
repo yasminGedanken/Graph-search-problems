@@ -1,4 +1,5 @@
-import javafx.util.Pair;
+
+
 
 import java.util.*;
 
@@ -98,17 +99,17 @@ public class DFBnB {
 
     public int manhattanDistance(Node current, String [][] goalMat) {
         int sum = 0 , empty =0;
-        Hashtable<String, Pair<Integer,Integer>> goalHash = new Hashtable<String, Pair<Integer,Integer>>();
-        Hashtable<String, Pair<Integer,Integer>> childHash = new Hashtable<String, Pair<Integer,Integer>>();
+        Hashtable<String, Pair> goalHash = new Hashtable<String, Pair>();
+        Hashtable<String, Pair> childHash = new Hashtable<String, Pair>();
 
         for (int i = 0; i < goalMat.length; i++) {
             for (int j = 0; j < goalMat[0].length; j++) {
                 if (goalMat[i][j].equals("_")) empty++;
-                if(empty > 1) {goalHash.put("__" , new Pair<>(i,j));
-                    childHash.put("__" , new Pair<>(i,j));
+                if(empty > 1) {goalHash.put("__" , new Pair(i,j));
+                    childHash.put("__" , new Pair(i,j));
                 }else {
-                    goalHash.put(goalMat[i][j], new Pair<>(i, j));
-                    childHash.put(current.mat[i][j], new Pair<>(i, j));
+                    goalHash.put(goalMat[i][j], new Pair(i, j));
+                    childHash.put(current.mat[i][j], new Pair(i, j));
                 }
             }
         }
@@ -118,11 +119,11 @@ public class DFBnB {
 //
 //
 //        }} else {
-        for (Map.Entry<String, Pair<Integer, Integer>> entry : childHash.entrySet()) {
+        for (Map.Entry<String, Pair> entry : childHash.entrySet()) {
             String stringKey = entry.getKey();
-            Pair<Integer, Integer> integerIntegerPair = entry.getValue();
-            sum += (Math.abs(goalHash.get(stringKey).getKey() - childHash.get(stringKey).getKey())*5
-                    + Math.abs(goalHash.get(stringKey).getValue() - childHash.get(stringKey).getValue())*5);
+            Pair integerIntegerPair = entry.getValue();
+            sum += (Math.abs(goalHash.get(stringKey).getFirst() - childHash.get(stringKey).getFirst())*5
+                    + Math.abs(goalHash.get(stringKey).getSecond() - childHash.get(stringKey).getSecond())*5);
             //}
 
         }

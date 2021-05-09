@@ -1,7 +1,4 @@
 
-
-import javafx.util.Pair;
-
 public class Node {
 
     Node father;

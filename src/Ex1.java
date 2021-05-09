@@ -1,4 +1,4 @@
-import javafx.util.Pair;
+
 import java.io.FileWriter;
 import java.io.File;  // Import the File class
 import java.io.FileNotFoundException;  // Import this class to handle errors
@@ -17,8 +17,8 @@ public class Ex1 {
     public static void main(String[] args) {
 
         try {
-            long start = System.currentTimeMillis();
-        File myObj = new File("src\\input.txt");
+         long start = System.currentTimeMillis();
+        File myObj = new File("src//input.txt");
         Scanner myReader = new Scanner(myObj);
         String algo =myReader.nextLine();
         String time = myReader.nextLine();
@@ -79,7 +79,7 @@ public class Ex1 {
 
 
         if(!(ans == null)) {
-            FileWriter myWriter = new FileWriter("src\\output111.txt");
+            FileWriter myWriter = new FileWriter("src//output.txt");
             ans.path = ans.path.substring(1);
             myWriter.write(ans.path);
             myWriter.write("\n");
