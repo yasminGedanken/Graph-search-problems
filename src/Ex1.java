@@ -18,7 +18,7 @@ public class Ex1 {
 
         try {
             long start = System.currentTimeMillis();
-        File myObj = new File("src\\input2.txt");
+        File myObj = new File("src\\input.txt");
         Scanner myReader = new Scanner(myObj);
         String algo =myReader.nextLine();
         String time = myReader.nextLine();
@@ -51,38 +51,55 @@ public class Ex1 {
             }
 
 
-            Node root = new Node(myArray,null,"","");
-           // Node ans = new DFID().DFID(root, stringSolution);
-            //Node ans = new BFS().BFS(root, stringSolution);
-            //Node ans = new A().A(root, mySolutionArray);
-           // Node ans = new IDA().IDA(root, mySolutionArray);
-            Node ans = new DFBnB().DFBnB(root, mySolutionArray);
+            Node root = new Node(myArray,null,"","", open);
+            Node ans = null;
+            switch (algo){
+                case "BFS":
+                     ans = new BFS().BFS(root, stringSolution);
+                    break;
+                case "DFID":
+                    ans = new DFID().DFID(root, stringSolution);
+                    break;
+                case "A*":
+                    ans = new A().A(root, mySolutionArray);
+                    break;
+                case "IDA*":
+                    ans = new IDA().IDA(root, mySolutionArray);
+                    break;
+                case "DFBnB":
+                    ans = new DFBnB().DFBnB(root, mySolutionArray);
+                    break;
+                default:
+                    ans.stringMat = "-no path";
+            }
+
 
             long end = System.currentTimeMillis();
             NumberFormat formatter = new DecimalFormat("#0.000");
-          //  System.out.print("Execution time is " + formatter.format((end - start) / 1000d) + " seconds");
 
-if(!(ans == null)) {
-    FileWriter myWriter = new FileWriter("src\\output111.txt");
-    ans.path = ans.path.substring(1);
-    myWriter.write(ans.path);
-    myWriter.write("\n");
-    myWriter.write("Num: " + ans.totalNodes);
-    myWriter.write("\n");
-    myWriter.write("Cost: " + ans.cost);
-    myWriter.write("\n");
-    myWriter.write("sec: " + formatter.format((end - start) / 10000d));
-    myWriter.close();
-}
-else System.out.println("null");
 
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(!(ans == null)) {
+            FileWriter myWriter = new FileWriter("src\\output111.txt");
+            ans.path = ans.path.substring(1);
+            myWriter.write(ans.path);
+            myWriter.write("\n");
+            myWriter.write("Num: " + ans.totalNodes);
+            myWriter.write("\n");
+            myWriter.write("Cost: " + ans.cost);
+            myWriter.write("\n");
+            if(time.equals("with time"))
+            myWriter.write( formatter.format((end - start) / 10000d) + " seconds");
+            myWriter.close();
         }
-    }
+        else System.out.println("null");
+
+                } catch (FileNotFoundException e) {
+                    System.out.println("An error occurred.");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
 
 
-}
+        }

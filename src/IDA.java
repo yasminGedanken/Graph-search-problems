@@ -22,7 +22,6 @@ public class IDA {
 
             minF = Integer.MAX_VALUE;
             start.out = false;
-            start.lastMove = "start again";
 
             for (int i = 0; i < start.mat.length; i++)
                 start.stringMat += Arrays.toString(start.mat[i]);
@@ -54,8 +53,7 @@ public class IDA {
 
                         if (HT.containsKey(element.stringMat) && !(HT.get(element.stringMat).out)) {
                             if (manhattanTemp < (manhattanDistance(HT.get(element.stringMat), goalMat) + HT.get(element.stringMat).cost)) {
-
-                                System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                                if(start.withPath.equals("with open")) System.out.println(element.stringMat);
                                 HT.remove(element.stringMat);
                                 stack.remove(element.stringMat);
 

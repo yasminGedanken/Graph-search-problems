@@ -15,6 +15,7 @@ public class Node {
     boolean imCutoff =false; //for DFID algo.
     boolean fail = false; //for DFID algo.
     boolean out = false; // for IDA algo.
+    String withPath = ""; // for printing path of open list
 
     public Node(){
         this.mat = null;
@@ -25,13 +26,14 @@ public class Node {
 
 
     }
-    public Node(String [][] prevMatrix, Node father, String move, String path){
+    public Node(String [][] prevMatrix, Node father, String move, String path, String withPath){
 
         this.mat = prevMatrix;
         this.father = father;
         this.lastMove = move;
         this.path=path;
         this.cost=0;
+        this.withPath = withPath;
 
 
     }

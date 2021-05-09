@@ -1,6 +1,6 @@
-A*
+DFBnB
 no time
-no open
+with open
 3x3
 1,_,4
 3,5,6

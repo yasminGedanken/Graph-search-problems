@@ -6,10 +6,11 @@ public class DFID {
 
     int numberOfNodes =1;
     boolean isCutoff = false;
+    String printPath = "";
 
     public Node DFID(Node start, String goalMat){
 
-
+        printPath = start.withPath;
         for (int depth = 1; depth <  Integer.MAX_VALUE; depth++) {
             Hashtable<String ,Node> HT = new Hashtable<String,Node>();
             Node result = Limited_DFS(start, goalMat, depth , HT);
@@ -40,6 +41,7 @@ public class DFID {
                     else if (!result.fail) return result;
                 }
 
+                if(printPath.equals("with open")) System.out.println(nodeCu.stringMat);
                 HT.remove(nodeCu.stringMat);
                 if (isCutoff)  nodeCu.imCutoff = true;
                 else nodeCu.fail = true;

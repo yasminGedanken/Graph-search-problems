@@ -34,7 +34,6 @@ public class A {
 
 
             if(stringSolution.equals(current.stringMat)) {
-                System.out.println(current.stringMat);
                 current.totalNodes=sumOfNodes;
                 return current;
             }
@@ -52,6 +51,7 @@ public class A {
                     if(openList.containsKey(element.stringMat)){
                         if((manhattanDistance(element, goalMat) +element.cost) < (manhattanDistance(openList.get(element.stringMat),goalMat) + openList.get(element.stringMat).cost)){
 
+                            if(start.withPath.equals("with open")) System.out.println(element.stringMat);
                             openList.remove(element.stringMat);
                             pQueue.remove(element);
 

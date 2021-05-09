@@ -44,6 +44,7 @@ public class DFBnB {
                     if( manhattan >= (manhattanDistance(HT.get(listNodes.get(i).stringMat), goalMat)+ HT.get(listNodes.get(i).stringMat).cost))
                         listNodes.remove(i);
                     else{
+                        if(start.withPath.equals("with open")) System.out.println(listNodes.get(i).stringMat);
                         HT.remove(listNodes.get(i).stringMat);
                         stack.remove(listNodes.get(i));
                     }

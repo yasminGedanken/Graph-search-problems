@@ -21,6 +21,7 @@ public class BFS {
 
 
             closedList.put(currentNode.stringMat, currentNode);
+            if(start.withPath.equals("with open")) System.out.println(currentNode.stringMat);
             openList.remove(currentNode.stringMat);
 
             List<Node> listNodes = new Children().makeChildren(currentNode, goalMat);
@@ -32,7 +33,6 @@ public class BFS {
                 if(!closedList.containsKey(element.stringMat) && !openList.containsKey(element.stringMat)){
                     if(element.stringMat.equals(goalMat)) {
                         element.totalNodes = numberOfNodes;
-                        System.out.println("ans!!!!!!!!!!");
                         return element;
                     }
                     else {
