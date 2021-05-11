@@ -8,7 +8,7 @@ public class BFS {
 
 
 
-   public Node BFS(Node start, String  goalMat) throws IOException {
+   public Node BFS(Node start, String  goalMat)  {
        Queue<Node> queue = new LinkedList<>();
        Hashtable<String ,Node> openList = new Hashtable<String,Node>();
        Hashtable<String ,Node> closedList = new Hashtable<String,Node>();
@@ -26,10 +26,10 @@ public class BFS {
             openList.remove(currentNode.stringMat);
 
             List<Node> listNodes = new Children().makeChildren(currentNode, goalMat);
-                numberOfNodes += listNodes.size();
+                //numberOfNodes += listNodes.size();
 
             for (Node element : listNodes) {
-
+                numberOfNodes ++;
 
                 if(!closedList.containsKey(element.stringMat) && !openList.containsKey(element.stringMat)){
                     if(element.stringMat.equals(goalMat)) {
@@ -44,7 +44,10 @@ public class BFS {
            }
 
         }
-        return null;
+        Node noPath = start;
+        noPath.path = "-no path";
+        noPath.totalNodes= numberOfNodes;
+        return noPath;
    }
 
 

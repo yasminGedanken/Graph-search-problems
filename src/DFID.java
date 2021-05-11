@@ -17,7 +17,11 @@ public class DFID {
             Node result = Limited_DFS(start, goalMat, depth , HT);
             if(!result.imCutoff) {result.totalNodes= numberOfNodes; return result;}
         }
-        return null;
+
+        Node noPath = start;
+        noPath.path = "-no path";
+        noPath.totalNodes= numberOfNodes;
+        return noPath;
     }
 
     private Node Limited_DFS(Node nodeCu, String goalMat, int limit, Hashtable<String,Node> HT) {
@@ -31,7 +35,6 @@ public class DFID {
                 HT.put(nodeCu.stringMat, nodeCu);
                 isCutoff = false;
                 List<Node> listNodes = new Children().makeChildren(nodeCu, goalMat);
-
 
                 for (Node element : listNodes) {
                     numberOfNodes ++;

@@ -7,7 +7,7 @@ import java.util.*;
 public class A {
 
     String [][] goalMatManhattan;
-
+    boolean ioException = false;
 
     public Node A(Node start, String [][] goalMat){
         goalMatManhattan = goalMat;
@@ -26,6 +26,13 @@ public class A {
         PriorityQueue<Node> pQueue = new PriorityQueue<>(nodeCostComparator);
         Hashtable<String, Node> openList = new Hashtable<String, Node>();
         Hashtable<String, Node> closedList = new Hashtable<String, Node>();
+
+        if(ioException){
+            Node noPath = start;
+            noPath.path = "-no path";
+            noPath.totalNodes= 1;
+            return noPath;
+        }
 
         pQueue.add(start);
       //  openList.put(stringStart, start);
@@ -51,7 +58,12 @@ public class A {
                 }else{
                     if(openList.containsKey(element.stringMat)){
                         if(nodeCostComparator.compare(element, openList.get(element.stringMat)) == -1 ){
-
+                            if(ioException){
+                                Node noPath = start;
+                                noPath.path = "-no path";
+                                noPath.totalNodes= sumOfNodes;
+                                return noPath;
+                            }
                             if(start.withPath.equals("with open")) System.out.println(element.stringMat);
                             openList.remove(element.stringMat);
                             pQueue.remove(element);
@@ -67,7 +79,10 @@ public class A {
 
         }
 
-        return null;
+        Node noPath = start;
+        noPath.path = "-no path";
+        noPath.totalNodes= sumOfNodes;
+        return noPath;
     }
 
 // (a<b) =-1, (a>b)=1
@@ -76,6 +91,7 @@ public class A {
         public int compare(Node o1, Node o2) {
             int costO1 = manhattanDistance(o1 , goalMatManhattan) + o1.cost;
             int costO2 = manhattanDistance(o2 , goalMatManhattan) + o2.cost;
+            if(costO1 == -1 || costO2 == -1) ioException = true;
         if(costO1 < costO2) return -1;
         if(costO1 > costO2) return 1;
         if(costO1 == costO2) {
@@ -122,15 +138,18 @@ public class A {
 //
 //
 //        }} else {
-            for (Map.Entry<String, Pair> entry : childHash.entrySet()) {
-                String stringKey = entry.getKey();
-                Pair integerIntegerPair = entry.getValue();
-                sum += (Math.abs(goalHash.get(stringKey).getFirst() - childHash.get(stringKey).getFirst())*5
-                        + Math.abs(goalHash.get(stringKey).getSecond() - childHash.get(stringKey).getSecond())*5);
-            //}
+         try{   for (Map.Entry<String, Pair> entry : childHash.entrySet()) {
+             String stringKey = entry.getKey();
+             Pair integerIntegerPair = entry.getValue();
+             sum += (Math.abs(goalHash.get(stringKey).getFirst() - childHash.get(stringKey).getFirst()) * 5
+                     + Math.abs(goalHash.get(stringKey).getSecond() - childHash.get(stringKey).getSecond()) * 5);
+         }
+         return sum;
+         }catch(Exception e){
 
-        }
-        return sum;
+         }
+
+        return -1;
     }
 
 

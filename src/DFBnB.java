@@ -6,6 +6,7 @@ import java.util.*;
 public class DFBnB {
     String [][] goalMatManhattan;
 
+
     public Node DFBnB(Node start, String [][] goalMat){
 
         goalMatManhattan = goalMat;
@@ -20,7 +21,7 @@ public class DFBnB {
         stack.push(start);
         HT.put(start.stringMat, start);
 
-        Node result =null;
+        Node result = new Node();
         int t =Integer.MAX_VALUE , sumOfNodes =1 , manhattan =0;
 
         while(!stack.isEmpty()){
@@ -64,6 +65,12 @@ public class DFBnB {
         }
 
         }
+        if(result.path.equals("")){
+            Node noPath = start;
+            noPath.path = "-no path";
+            noPath.totalNodes= sumOfNodes;
+            return noPath;
+        }
 
         result.totalNodes = sumOfNodes;
         return result;
@@ -104,10 +111,13 @@ public class DFBnB {
 
         for (int i = 0; i < goalMat.length; i++) {
             for (int j = 0; j < goalMat[0].length; j++) {
-                if (goalMat[i][j].equals("_")) empty++;
-                if(empty > 1) {goalHash.put("__" , new Pair(i,j));
-                    childHash.put("__" , new Pair(i,j));
-                }else {
+                if (goalMat[i][j].equals("_")) {
+                    if (!current.mat[i][j].equals("_"))
+                        childHash.put(current.mat[i][j], new Pair(i, j));
+                }else if(current.mat[i][j].equals("_")){
+                    if (!goalMat[i][j].equals("_"))
+                        goalHash.put(goalMat[i][j], new Pair(i, j));
+                }else if((!goalMat[i][j].equals("_")) && (!current.mat[i][j].equals("_"))){
                     goalHash.put(goalMat[i][j], new Pair(i, j));
                     childHash.put(current.mat[i][j], new Pair(i, j));
                 }
@@ -119,15 +129,14 @@ public class DFBnB {
 //
 //
 //        }} else {
-        for (Map.Entry<String, Pair> entry : childHash.entrySet()) {
+         for (Map.Entry<String, Pair> entry : childHash.entrySet()) {
             String stringKey = entry.getKey();
             Pair integerIntegerPair = entry.getValue();
-            sum += (Math.abs(goalHash.get(stringKey).getFirst() - childHash.get(stringKey).getFirst())*5
-                    + Math.abs(goalHash.get(stringKey).getSecond() - childHash.get(stringKey).getSecond())*5);
-            //}
-
+            sum += (Math.abs(goalHash.get(stringKey).getFirst() - childHash.get(stringKey).getFirst()) * 5
+                    + Math.abs(goalHash.get(stringKey).getSecond() - childHash.get(stringKey).getSecond()) * 5);
         }
-        return sum;
+            return sum;
     }
+
 
 }

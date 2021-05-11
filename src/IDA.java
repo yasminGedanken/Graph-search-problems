@@ -4,20 +4,21 @@ import java.util.*;
 
 public class IDA {
 
-    public Node IDA(Node start, String [][] goalMat) {
+    public Node IDA(Node start, String[][] goalMat) {
 
-        String stringSolution ="";
+        String stringSolution = "";
         for (int i = 0; i < goalMat.length; i++)
             stringSolution += Arrays.toString(goalMat[i]);
 
         int manhattan = manhattanDistance(start, goalMat);
 
+
         Stack<Node> stack = new Stack<>();
         Hashtable<String, Node> HT = new Hashtable<String, Node>();
 
-        int minF=0 , sumOfNodes = 1, manhattanTemp=0;
+        int minF = 0, sumOfNodes = 1, manhattanTemp = 0;
 
-        while( manhattan != Integer.MAX_VALUE) {
+        while (manhattan != Integer.MAX_VALUE) {
 
             minF = Integer.MAX_VALUE;
             start.out = false;
@@ -36,7 +37,7 @@ public class IDA {
                     current.out = true;
                     stack.push(current);
 
-                    List<Node> listNodes = new Children().makeChildren(current,stringSolution);
+                    List<Node> listNodes = new Children().makeChildren(current, stringSolution);
                     sumOfNodes += listNodes.size();
 
                     for (Node element : listNodes) {
@@ -52,7 +53,7 @@ public class IDA {
 
                         if (HT.containsKey(element.stringMat) && !(HT.get(element.stringMat).out)) {
                             if (manhattanTemp < (manhattanDistance(HT.get(element.stringMat), goalMat) + HT.get(element.stringMat).cost)) {
-                                if(start.withPath.equals("with open")) System.out.println(element.stringMat);
+                                if (start.withPath.equals("with open")) System.out.println(element.stringMat);
                                 HT.remove(element.stringMat);
                                 stack.remove(element.stringMat);
 
@@ -74,7 +75,11 @@ public class IDA {
             }
             manhattan = minF;
         }
-    return null;
+
+        Node noPath = start;
+        noPath.path = "-no path";
+        noPath.totalNodes= sumOfNodes;
+        return noPath;
     }
 
 
@@ -85,10 +90,13 @@ public class IDA {
 
         for (int i = 0; i < goalMat.length; i++) {
             for (int j = 0; j < goalMat[0].length; j++) {
-                if (goalMat[i][j].equals("_")) empty++;
-                if(empty > 1) {goalHash.put("__" , new Pair(i,j));
-                    childHash.put("__" , new Pair(i,j));
-                }else {
+                if (goalMat[i][j].equals("_")) {
+                    if (!current.mat[i][j].equals("_"))
+                        childHash.put(current.mat[i][j], new Pair(i, j));
+                }else if(current.mat[i][j].equals("_")){
+                    if (!goalMat[i][j].equals("_"))
+                        goalHash.put(goalMat[i][j], new Pair(i, j));
+                }else if((!goalMat[i][j].equals("_")) && (!current.mat[i][j].equals("_"))){
                     goalHash.put(goalMat[i][j], new Pair(i, j));
                     childHash.put(current.mat[i][j], new Pair(i, j));
                 }
@@ -103,13 +111,11 @@ public class IDA {
         for (Map.Entry<String, Pair> entry : childHash.entrySet()) {
             String stringKey = entry.getKey();
             Pair integerIntegerPair = entry.getValue();
-            sum += (Math.abs(goalHash.get(stringKey).getFirst() - childHash.get(stringKey).getFirst())*5
-                    + Math.abs(goalHash.get(stringKey).getSecond() - childHash.get(stringKey).getSecond())*5);
-            //}
-
+            sum += (Math.abs(goalHash.get(stringKey).getFirst() - childHash.get(stringKey).getFirst()) * 5
+                    + Math.abs(goalHash.get(stringKey).getSecond() - childHash.get(stringKey).getSecond()) * 5);
         }
-        return sum;
-    }
+            return sum;
 
+    }
 
 }

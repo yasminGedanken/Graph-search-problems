@@ -13,6 +13,7 @@ public class Node {
     boolean fail = false; //for DFID algo.
     boolean out = false; // for IDA algo.
     String withPath = ""; // for printing path of open list
+    String lastNumber = "";
 
     public Node(){
         this.mat = null;

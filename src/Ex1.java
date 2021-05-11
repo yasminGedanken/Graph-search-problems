@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 import java.util.Scanner; // Import the Scanner class to read text files
 
 
@@ -25,8 +23,6 @@ public class Ex1 {
         String open = myReader.nextLine();
         String size= myReader.nextLine();
 
-
-            System.out.println("algo: "+algo+", time: "+time+", open: "+open+", size: "+size);
 
         String [] sizeMat = size.split("x",2);
         int sizeI = Integer.parseInt(sizeMat[0]);
@@ -70,7 +66,10 @@ public class Ex1 {
                     ans = new DFBnB().DFBnB(root, mySolutionArray);
                     break;
                 default:
-                    ans.stringMat = "-no path";
+                    ans.stringMat = "-not right algo mane";
+                    ans.totalNodes=0;
+                    ans.cost=0;
+
             }
 
 
@@ -85,13 +84,25 @@ public class Ex1 {
             myWriter.write("\n");
             myWriter.write("Num: " + ans.totalNodes);
             myWriter.write("\n");
-            myWriter.write("Cost: " + ans.cost);
-            myWriter.write("\n");
-            if(time.equals("with time"))
-            myWriter.write( formatter.format((end - start) / 10000d) + " seconds");
+            if(!(ans.cost == 0)) {
+                myWriter.write("Cost: " + ans.cost);
+                myWriter.write("\n");
+            }
+            if(time.equals("with time") && !ans.path.equals("no path"))
+            myWriter.write( formatter.format((end - start) / 1000d) + " seconds");
             myWriter.close();
         }
-        else System.out.println("null");
+        else {
+
+            FileWriter myWriter = new FileWriter("output.txt");
+            myWriter.write("no path");
+            myWriter.write("\n");
+            myWriter.write("Num: " + 1);
+            myWriter.write("\n");
+            if(time.equals("with time"))
+                myWriter.write( formatter.format((end - start) / 10000d) + " seconds");
+            myWriter.close();
+        }
 
                 } catch (FileNotFoundException e) {
                     System.out.println("An error occurred.");
