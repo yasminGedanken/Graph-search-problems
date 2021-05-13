@@ -1,32 +1,30 @@
-public class Pair {
-    int first;
-    int second;
+public class Pair<T, E> {
+    T first;
+    E second;
 
-    public Pair(int fir, int sec){
+
+    public Pair(T fir, E sec){
         first = fir;
         second = sec;
     }
-    public Pair(){
-        first = -1;
-        second = -1;
-    }
+
 
     // Getter
-    public int getFirst() {
+    public T getFirst() {
         return first;
     }
 
     // Setter
-    public void setFirst(int fir) {
+    public void setFirst(T fir) {
         this.first= fir;
     }
     // Getter
-    public int getSecond() {
+    public E getSecond() {
         return second;
     }
 
     // Setter
-    public void setSecond(int sec) {
+    public void setSecond(E sec) {
         this.second= sec;
     }
 
