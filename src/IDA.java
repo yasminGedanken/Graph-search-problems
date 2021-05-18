@@ -90,27 +90,36 @@ public class IDA {
 
         for (int i = 0; i < goalMat.length; i++) {
             for (int j = 0; j < goalMat[0].length; j++) {
-                if (goalMat[i][j].equals("_")) {
-                    if (!current.mat[i][j].equals("_"))
-                        childHash.put(current.mat[i][j], new Pair<Integer,Integer>(i, j));
-                } else if (current.mat[i][j].equals("_")) {
-                    if (!goalMat[i][j].equals("_"))
-                        goalHash.put(goalMat[i][j], new Pair<Integer,Integer>(i, j));
-                } else if ((!goalMat[i][j].equals("_")) && (!current.mat[i][j].equals("_"))) {
-                    goalHash.put(goalMat[i][j], new Pair<Integer,Integer>(i, j));
-                    childHash.put(current.mat[i][j], new Pair<Integer,Integer>(i, j));
+                if (goalMat[i][j].equals("_") && !current.mat[i][j].equals("_")) {
+                    childHash.put(current.mat[i][j], new Pair<Integer, Integer>(i, j));
+                } else{
+                    if (current.mat[i][j].equals("_")) {
+                        if (empty == 0) {
+                            empty++;
+                        } else {
+                            empty++;
+                        }
+                        if (!goalMat[i][j].equals("_"))
+                            goalHash.put(goalMat[i][j], new Pair<Integer, Integer>(i, j));
+                    } else if ((!goalMat[i][j].equals("_")) && (!current.mat[i][j].equals("_"))) {
+                        goalHash.put(goalMat[i][j], new Pair<Integer, Integer>(i, j));
+                        childHash.put(current.mat[i][j], new Pair<Integer, Integer>(i, j));
+                    }
                 }
-            }
-        }
+            }}
+
         for (Map.Entry<String, Pair<Integer,Integer>> entry : childHash.entrySet()) {
             String stringKey = entry.getKey();
-            Pair<Integer,Integer> integerIntegerPair = entry.getValue();
-            sum += (Math.abs(goalHash.get(stringKey).getFirst() - childHash.get(stringKey).getFirst()) * 3
-                    + Math.abs(goalHash.get(stringKey).getSecond() - childHash.get(stringKey).getSecond()) * 3);
+
+            if (empty > 1) {
+                sum += (Math.abs(goalHash.get(stringKey).getFirst() - childHash.get(stringKey).getFirst()) * 3.5
+                        + Math.abs(goalHash.get(stringKey).getSecond() - childHash.get(stringKey).getSecond()) * 3);
+            }else{
+                sum += (Math.abs(goalHash.get(stringKey).getFirst() - childHash.get(stringKey).getFirst()) * 5
+                        + Math.abs(goalHash.get(stringKey).getSecond() - childHash.get(stringKey).getSecond()) * 5);
+            }
+
         }
-
-
-
 
         return sum +new F_LinearConflict().linearConflict(current,goalHash);
     }

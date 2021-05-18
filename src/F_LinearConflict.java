@@ -13,6 +13,7 @@ public class F_LinearConflict {
         return rowTemp;
     }
 
+    //this function return pair of indexes in the goal
     private Pair<Integer, Integer> colIndex(String key) {
         int i, j;
         i = goal.get(key).first;
@@ -21,7 +22,7 @@ public class F_LinearConflict {
         return colTemp;
     }
 
-
+   //transpose the matrix of the current node
     private String[][] transpose() {
         String[][] temp = new String[current.mat[0].length][current.mat.length];
         for (int i = 0; i < current.mat[0].length; i++) {
@@ -34,6 +35,9 @@ public class F_LinearConflict {
         return temp;
     }
 
+    //this function get node for the current matrix and hash table
+    //with the indexes of the goal matrix.
+    //its return the sum*2 of the comflicts
     public int linearConflict(Node cur, Hashtable<String, Pair<Integer, Integer>> goal) {
         this.current = cur;
         this.goal = goal;
@@ -56,19 +60,25 @@ public class F_LinearConflict {
             sum += col[j];
         }
 
-        return sum;
+        return sum*2;
     }
 
 
+    //this function get a number of row that we check in the current matrix- owIndexOriginal.
+    //and get arr- the row of the that we now check.
     private int linearSum(int rowIndexOriginal, String [] arr){
         int conflictSum =0;
+
+        //conflictMapping- hash that hold for key- string of the number.
+        //          value- Pair<Integer, Set<String>> that int to count how much nbrs this key have , and set to hold
+        //                 a list of his nbrs.
         Hashtable<String, Pair<Integer, Set<String>>> conflictMapping = new Hashtable<String, Pair<Integer, Set<String>>>();
 
         for (int j = 0; j < arr.length; j++) {
-            if (arr[j].equals("_")) continue;
+            if (arr[j].equals("_")) continue; //empty block
 
-            int indexX, indexY; //x,y
-            if (flagAfterTranspose) {
+            int indexX, indexY;
+            if (flagAfterTranspose) { //if we already did transpose to the matrix or not- to replace the indexes.
                 indexX = goal.get(arr[j]).second;
                 indexY = goal.get(arr[j]).first;
             } else {
@@ -82,7 +92,7 @@ public class F_LinearConflict {
                 String nextCheck = arr[k];
                 if (nextCheck.equals("_")) continue;
 
-                int indexTX, indexTY; //tx,ty
+                int indexTX, indexTY;
 
                 if (flagAfterTranspose) {
                     indexTX = goal.get(arr[k]).second;
@@ -92,8 +102,9 @@ public class F_LinearConflict {
                     indexTY = goal.get(arr[k]).second;
                 }
 
-                if (indexX == indexTX && indexY >= indexTY) {
+                if (indexX == indexTX && indexY >= indexTY) { //in the same row but the numbers are switch places.
 
+                    //we create/update the data in the conflictMapping for a key and for his nbrs.
                    Pair<Integer, Set<String>> addToCurrent = conflictMapping.get(arr[j]);
                     int currentDegree = 1;
                     Set<String> currentNrs = new HashSet<>();
@@ -105,6 +116,7 @@ public class F_LinearConflict {
                    currentNrs.add(nextCheck);
                     conflictMapping.put(arr[j], new Pair<Integer, Set<String>>(currentDegree, currentNrs));
 
+                    //we create/update the data in the conflictMapping for a nbrs of the current key.
                    Pair<Integer, Set<String>> ne_current = conflictMapping.get(nextCheck);
                     int nbsDegree = 1;
                     Set<String> nbsArr = new HashSet<>();
@@ -120,9 +132,12 @@ public class F_LinearConflict {
             }
         }
 
+        //now we count all the conflict that we have.
+        //we start with the key that have the most conflicts to the lowest.
         while(hasDegree(conflictMapping.values()))
         {
 
+            //get the key with the most conflicts
             String popped ="";
             int maxValue = 0;
             for(Map.Entry<String,Pair<Integer, Set<String>>> entry : conflictMapping.entrySet()) {
@@ -134,6 +149,7 @@ public class F_LinearConflict {
 
 
 
+            //we go over all the nbrs of the key, and remove from them the current key.
             for(String neighbour : conflictMapping.get(popped).getSecond())
 
             {
@@ -149,31 +165,18 @@ public class F_LinearConflict {
         return conflictSum;
 
     }
-    /** while there is atleast one vertex with degree > 0 */
-    private boolean hasDegree(Collection<Pair<Integer, Set<String>>> pair)
+    // check if there is vertex with degree > 0
+    private boolean hasDegree(Collection<Pair<Integer, Set<String>>> collec)
     {
-        Iterator<Pair<Integer, Set<String>>> iter = pair.iterator();
-        while(iter.hasNext())
+        for(Pair<Integer, Set<String>> empty : collec)
         {
             // check degree of each vertex
-            if(iter.next().getFirst() > 0)
+            if(empty.getFirst() > 0)
                 return true;
         }
         return false;
     }
 
-    /** # return the key that has most degree */
-    private String maxDegree(HashMap<String, Pair<Integer, Set<String>>> conflict_graph)
-    {
-        Map.Entry<String, Pair<Integer, Set<String>>> maxEntry = null;
-        for (Map.Entry<String, Pair<Integer, Set<String>>> entry : conflict_graph.entrySet())
-        {
-            if (maxEntry == null || entry.getValue().getFirst() > maxEntry.getValue().getFirst()) {
-                maxEntry = entry;
-            }
-        }
-        return maxEntry.getKey();
-    }
 
 
 }
