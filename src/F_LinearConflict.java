@@ -156,8 +156,9 @@ public class F_LinearConflict {
                 Pair<Integer, Set<String>> deg_nbrs = conflictMapping.get(neighbour);
                  deg_nbrs.getSecond().remove(popped);
                 conflictMapping.put(neighbour, new Pair<Integer, Set<String>>(deg_nbrs.getFirst()-1, deg_nbrs.getSecond()));
-                conflictSum++;
+
             }
+            conflictSum++;
             conflictMapping.remove(popped);
 
         }

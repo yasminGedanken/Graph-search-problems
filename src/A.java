@@ -36,11 +36,11 @@ public class A {
         }
 
         pQueue.add(start);
-      //  openList.put(stringStart, start);
+        //  openList.put(stringStart, start);
 
         while (!pQueue.isEmpty()){
             Node current = pQueue.poll();
-          //  openList.remove(current.stringMat,current);
+            //  openList.remove(current.stringMat,current);
 
             if(stringSolution.equals(current.stringMat)) {
                 current.totalNodes=sumOfNodes;
@@ -58,11 +58,12 @@ public class A {
                     pQueue.add(element);
                 }else{
                     if(openList.containsKey(element.stringMat)){
-                        if(nodeCostComparator.compare(element, openList.get(element.stringMat)) == -1 ){
+                        Node temp = openList.get(element.stringMat);
+                        if(nodeCostComparator.compare(element, temp) == -1 ){
 
                             if(start.withPath.equals("with open")) System.out.println(element.stringMat);
                             openList.remove(element.stringMat);
-                            pQueue.remove(element);
+                            pQueue.remove(temp);
 
                             openList.put(element.stringMat, element);
                             pQueue.add(element);
@@ -81,29 +82,29 @@ public class A {
         return noPath;
     }
 
-//  (a<b) =-1, (a>b)=1
+    //  (a<b) =-1, (a>b)=1
     Comparator<Node> nodeCostComparator = new Comparator<Node>() {
         @Override
         public int compare(Node o1, Node o2) {
             int costO1 = manhattanDistance(o1 , goalMatManhattan) + o1.cost;
             int costO2 = manhattanDistance(o2 , goalMatManhattan) + o2.cost;
             if(costO1 == -1 || costO2 == -1) ioException = true;
-        if(costO1 < costO2) return -1;
-        if(costO1 > costO2) return 1;
-        if(costO1 == costO2) {
-            if(o1.iteration < o2.iteration) return -1;
-            if(o1.iteration > o2.iteration) return 1;
-            if(o1.iteration == o2.iteration) {
-                if(o1.lastMove.equals("left")) return -1;
-                if(o2.lastMove.equals("left")) return 1;
-                if(o1.lastMove.equals("up")) return -1;
-                if(o2.lastMove.equals("up")) return 1;
-                if(o1.lastMove.equals("right")) return -1;
-                if(o2.lastMove.equals("right")) return 1;
-                if(o1.lastMove.equals("down")) return -1;
-                if(o2.lastMove.equals("down")) return 1;
+            if(costO1 < costO2) return -1;
+            if(costO1 > costO2) return 1;
+            if(costO1 == costO2) {
+                if(o1.iteration < o2.iteration) return -1;
+                if(o1.iteration > o2.iteration) return 1;
+                if(o1.iteration == o2.iteration) {
+                    if(o1.lastMove.equals("left")) return -1;
+                    if(o2.lastMove.equals("left")) return 1;
+                    if(o1.lastMove.equals("up")) return -1;
+                    if(o2.lastMove.equals("up")) return 1;
+                    if(o1.lastMove.equals("right")) return -1;
+                    if(o2.lastMove.equals("right")) return 1;
+                    if(o1.lastMove.equals("down")) return -1;
+                    if(o2.lastMove.equals("down")) return 1;
+                }
             }
-        }
             return 0;
         }
     };
@@ -138,7 +139,7 @@ public class A {
             String stringKey = entry.getKey();
 
             if (empty > 1) {
-                sum += (Math.abs(goalHash.get(stringKey).getFirst() - childHash.get(stringKey).getFirst()) * 3.5
+                sum += (Math.abs(goalHash.get(stringKey).getFirst() - childHash.get(stringKey).getFirst()) * 3
                         + Math.abs(goalHash.get(stringKey).getSecond() - childHash.get(stringKey).getSecond()) * 3);
             }else{
                 sum += (Math.abs(goalHash.get(stringKey).getFirst() - childHash.get(stringKey).getFirst()) * 5

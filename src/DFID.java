@@ -35,9 +35,10 @@ public class DFID {
                 HT.put(nodeCu.stringMat, nodeCu);
                 isCutoff = false;
                 List<Node> listNodes = new Children().makeChildren(nodeCu, goalMat);
+                numberOfNodes+=listNodes.size();
 
                 for (Node element : listNodes) {
-                    numberOfNodes ++;
+
                     if (HT.containsKey(element.stringMat)) continue;
 
                     Node result = Limited_DFS(element, goalMat, limit - 1, HT);

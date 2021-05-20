@@ -1,6 +1,5 @@
 
 
-
 import java.util.*;
 
 public class DFBnB {
@@ -26,43 +25,48 @@ public class DFBnB {
 
         while(!stack.isEmpty()){
             Node current = stack.pop();
-        if(current.out) HT.remove(current.stringMat);
-        else{
-            current.out = true;
-            stack.push(current);
-            List<Node> listNodes = new Children().makeChildren(current,stringSolution);
-            sumOfNodes += listNodes.size();
+            if(current.out) HT.remove(current.stringMat);
+            else{
+                current.out = true;
+                stack.push(current);
+                List<Node> listNodes = new Children().makeChildren(current,stringSolution);
+                sumOfNodes += listNodes.size();
 
-            listNodes.sort(nodeCostComparator);
+                listNodes.sort(nodeCostComparator);
 
-            for (int i = 0; i < listNodes.size(); i++) {
-                if((manhattan = (manhattanDistance(listNodes.get(i), goalMat)+listNodes.get(i).cost)) >= t){
-                    for (int j = listNodes.size()-1 ; j >= i  ; j--)
-                        listNodes.remove(j);
-                }
-                else if(HT.containsKey(listNodes.get(i).stringMat) && listNodes.get(i).out)
-                    listNodes.remove(i);
-                else if(HT.containsKey(listNodes.get(i).stringMat) && !listNodes.get(i).out){
-                    if( manhattan >= (manhattanDistance(HT.get(listNodes.get(i).stringMat), goalMat)+ HT.get(listNodes.get(i).stringMat).cost))
-                        listNodes.remove(i);
-                    else{
-                        if(start.withPath.equals("with open")) System.out.println(listNodes.get(i).stringMat);
-                        HT.remove(listNodes.get(i).stringMat);
-                        stack.remove(listNodes.get(i));
+                for (int i = 0; i < listNodes.size(); i++) {
+                    manhattan = manhattanDistance(listNodes.get(i), goalMat)+listNodes.get(i).cost;
+                    if( manhattan >= t){
+                        for (int j = listNodes.size()-1 ; j >= i  ; j--)
+                            listNodes.remove(j);
                     }
+                    else if(HT.containsKey(listNodes.get(i).stringMat) && listNodes.get(i).out){
+                        listNodes.remove(i); i--;}
+                    else if(HT.containsKey(listNodes.get(i).stringMat) && !listNodes.get(i).out){
+                        Node temp = HT.get(listNodes.get(i).stringMat);
+                        if( manhattan >= (manhattanDistance(temp, goalMat)+ temp.cost)){
+                            listNodes.remove(i); i--;}
+                        else{
+                            if(start.withPath.equals("with open")) {
+                                for(Node print: HT.values())
+                                    System.out.println(print.stringMat);
+                            }
+                            HT.remove(listNodes.get(i).stringMat);
+                            stack.remove(temp);
+                        }
 
-                } else if(listNodes.get(i).stringMat.equals(stringSolution)){
-                    t = manhattan;
-                    result = listNodes.get(i);
-                    for (int j = listNodes.size()-1 ; j >= i  ; j--)
-                        listNodes.remove(j);
+                    } else if(listNodes.get(i).stringMat.equals(stringSolution)){
+                        t = manhattan;
+                        result = listNodes.get(i);
+                        for (int j = listNodes.size()-1 ; j >= i  ; j--)
+                            listNodes.remove(j);
+                    }
+                }
+                for (int j = listNodes.size()-1 ; j >= 0  ; j--){
+                    HT.put(listNodes.get(j).stringMat, listNodes.get(j));
+                    stack.push(listNodes.get(j));
                 }
             }
-            for (int j = listNodes.size()-1 ; j >= 0  ; j--){
-                HT.put(listNodes.get(j).stringMat, listNodes.get(j));
-                stack.push(listNodes.get(j));
-            }
-        }
 
         }
         if(result.path.equals("")){
@@ -77,7 +81,7 @@ public class DFBnB {
     }
 
 
-   // (a<b) =-1, (a>b)=1
+    // (a<b) =-1, (a>b)=1
     Comparator<Node> nodeCostComparator = new Comparator<Node>() {
         @Override
         public int compare(Node o1, Node o2) {
@@ -134,16 +138,16 @@ public class DFBnB {
             String stringKey = entry.getKey();
 
             if (empty > 1) {
-                sum += (Math.abs(goalHash.get(stringKey).getFirst() - childHash.get(stringKey).getFirst()) * 3.5
+                sum += (Math.abs(goalHash.get(stringKey).getFirst() - childHash.get(stringKey).getFirst()) * 3
                         + Math.abs(goalHash.get(stringKey).getSecond() - childHash.get(stringKey).getSecond()) * 3);
             }else{
                 sum += (Math.abs(goalHash.get(stringKey).getFirst() - childHash.get(stringKey).getFirst()) * 5
                         + Math.abs(goalHash.get(stringKey).getSecond() - childHash.get(stringKey).getSecond()) * 5);
-                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$");
+
             }
 
         }
-        System.out.println(sum);
+
         return sum +new F_LinearConflict().linearConflict(current,goalHash);
     }
 }

@@ -15,18 +15,18 @@ public class Ex1 {
     public static void main(String[] args) {
 
         try {
-         long start = System.currentTimeMillis();
-        File myObj = new File("input2.txt");
-        Scanner myReader = new Scanner(myObj);
-        String algo =myReader.nextLine();
-        String time = myReader.nextLine();
-        String open = myReader.nextLine();
-        String size= myReader.nextLine();
+            long start = System.currentTimeMillis();
+            File myObj = new File("input.txt");
+            Scanner myReader = new Scanner(myObj);
+            String algo =myReader.nextLine();
+            String time = myReader.nextLine();
+            String open = myReader.nextLine();
+            String size= myReader.nextLine();
 
 
-        String [] sizeMat = size.split("x",2);
-        int sizeI = Integer.parseInt(sizeMat[0]);
-        int sizeJ = Integer.parseInt(sizeMat[1]);
+            String [] sizeMat = size.split("x",2);
+            int sizeI = Integer.parseInt(sizeMat[0]);
+            int sizeJ = Integer.parseInt(sizeMat[1]);
 
             String [][] myArray = new String [sizeI][sizeJ];
             String [][] mySolutionArray = new String [sizeI][sizeJ];
@@ -51,7 +51,7 @@ public class Ex1 {
             Node ans = null;
             switch (algo){
                 case "BFS":
-                     ans = new BFS().BFS(root, stringSolution);
+                    ans = new BFS().BFS(root, stringSolution);
                     break;
                 case "DFID":
                     ans = new DFID().DFID(root, stringSolution);
@@ -77,40 +77,40 @@ public class Ex1 {
             NumberFormat formatter = new DecimalFormat("#0.000");
 
 
-        if(!(ans == null)) {
-            FileWriter myWriter = new FileWriter("output.txt");
-            ans.path = ans.path.substring(1);
-            myWriter.write(ans.path);
-            myWriter.write("\n");
-            myWriter.write("Num: " + ans.totalNodes);
-            myWriter.write("\n");
-            if(!(ans.cost == 0)) {
-                myWriter.write("Cost: " + ans.cost);
+            if(!(ans == null)) {
+                FileWriter myWriter = new FileWriter("output.txt");
+                ans.path = ans.path.substring(1);
+                myWriter.write(ans.path);
                 myWriter.write("\n");
-            }
-            if(time.equals("with time") && !ans.path.equals("no path"))
-            myWriter.write( formatter.format((end - start) / 1000d) + " seconds");
-            myWriter.close();
-        }
-        else {
-
-            FileWriter myWriter = new FileWriter("output.txt");
-            myWriter.write("no path");
-            myWriter.write("\n");
-            myWriter.write("Num: " + 1);
-            myWriter.write("\n");
-            if(time.equals("with time"))
-                myWriter.write( formatter.format((end - start) / 10000d) + " seconds");
-            myWriter.close();
-        }
-
-                } catch (FileNotFoundException e) {
-                    System.out.println("An error occurred.");
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                myWriter.write("Num: " + ans.totalNodes);
+                myWriter.write("\n");
+                if(!(ans.cost == 0)) {
+                    myWriter.write("Cost: " + ans.cost);
+                    myWriter.write("\n");
                 }
+                if(time.equals("with time") && !ans.path.equals("no path"))
+                    myWriter.write( formatter.format((end - start) / 1000d) + " seconds");
+                myWriter.close();
+            }
+            else {
+
+                FileWriter myWriter = new FileWriter("output.txt");
+                myWriter.write("no path");
+                myWriter.write("\n");
+                myWriter.write("Num: " + 1);
+                myWriter.write("\n");
+                if(time.equals("with time"))
+                    myWriter.write( formatter.format((end - start) / 10000d) + " seconds");
+                myWriter.close();
             }
 
-
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
+
+
+}
